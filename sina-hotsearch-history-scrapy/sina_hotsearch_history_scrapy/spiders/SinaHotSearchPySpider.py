@@ -41,7 +41,7 @@ class SinaHotSearchPySpider(scrapy.Spider):
         # del hotsearch_list[3]  # 移除推荐
         # del hotsearch_list[0]  # 移除置顶
         i = 0
-        for item in enumerate(hotsearch_list):
+        for item in hotsearch_list:
             hotsearch_list_item = HotSearchListItem()
             if 'desc_extr' not in item.keys():  # 置顶
                 continue

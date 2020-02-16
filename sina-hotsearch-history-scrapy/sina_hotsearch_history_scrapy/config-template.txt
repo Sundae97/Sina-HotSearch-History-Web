@@ -6,3 +6,10 @@ user = root
 password = 123456
 database = dbname
 charset = utf8
+
+[redis]
+host = 127.0.0.1
+port = 6379
+password = 123456
+db = 0
+decode_responses = True
