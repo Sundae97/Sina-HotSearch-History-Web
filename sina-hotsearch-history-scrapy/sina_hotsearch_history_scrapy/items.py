@@ -41,6 +41,9 @@ class HotSearchListItem(scrapy.Item):
 
 
 class HotSearchBlogItem(scrapy.Item):
+
+    hotsearch_item_id = scrapy.Field()
+
     # 用户的ID
     # data.cards[0].card_group[0].user.id
     user_id = scrapy.Field()
@@ -59,11 +62,11 @@ class HotSearchBlogItem(scrapy.Item):
 
     # 图片ID列表的字符串
     # data.cards[0].mblog.pics[0].pid
-    pic_ids_str = scrapy.Field()
+    pic_urls_str = scrapy.Field()
 
     # 转发量
     # data.cards[0].mblog.reposts_count
-    reports_count = scrapy.Field()
+    reposts_count = scrapy.Field()
 
     # 评论量
     # data.cards[0].mblog.comments_count

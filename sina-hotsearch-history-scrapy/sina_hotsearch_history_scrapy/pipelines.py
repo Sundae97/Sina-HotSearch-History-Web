@@ -53,11 +53,14 @@ class SinaHotsearchHistoryScrapyPipeline(object):
             item = self.process_hotsearch_list(item, spider)
         elif isinstance(item, HotSearchListItem):
             item = self.process_hotsearch_list_detail(item, spider)
+        elif isinstance(item, HotSearchBlogItem):
+            item = self.process_hotsearch_blog(item, spider)
         return item
 
     def process_hotsearch_list(self, item, spider):
         time = str(item['time'])
         logging.info("time ------> " + time)
+
         mysql_conn = self.__get_mysql_connection()
         cursor = mysql_conn.cursor()
 
@@ -68,9 +71,10 @@ class SinaHotsearchHistoryScrapyPipeline(object):
                 (time,)
             )
             cursor.execute("SELECT @@identity")     # 查询主键
-            res = cursor.fetchone()
-            logging.info("id ------> " + str(res[0]))
+            res = cursor.fetchone()[0]
+            logging.info("id ------> " + str(res))
             mysql_conn.commit()
+            spider.hotsearch_list_id = res   # 返回插入的ID
             logging.info("process_hotsearch_list ----> commit success")
         except Exception as e:
             logging.error("process_hotsearch_list ----> commit fail", e)
@@ -79,22 +83,20 @@ class SinaHotsearchHistoryScrapyPipeline(object):
             cursor.close()
             mysql_conn.close()
 
-        spider.hotsearch_list_id = res[0]   # 返回插入的ID
-
         return item
 
     def process_hotsearch_list_detail(self, item, spider):
-        mysql_conn = self.__get_mysql_connection()
-        redis_conn = self.__get_redis_connection()
-        cursor = mysql_conn.cursor()
-
         hotsearch_id = item['hotsearch_id']
         hotsearch_rank = item['hotsearch_rank']
         icon = item['icon']
-        desc = item['desc']
+        desc = repr(item['desc'])
         desc_extr = item['desc_extr']
         scheme = item['scheme']
         detail_url = item['detail_url']
+
+        redis_conn = self.__get_redis_connection()
+        mysql_conn = self.__get_mysql_connection()
+        cursor = mysql_conn.cursor()
 
         try:
             mysql_conn.begin()
@@ -116,8 +118,11 @@ class SinaHotsearchHistoryScrapyPipeline(object):
                 "(%s,%s,%s)"
             cursor.execute(insert_rank_sql,
                            (hotsearch_id, hotsearch_list_detail_id, hotsearch_rank))
+            cursor.execute("SELECT @@identity")     # 查询主键
+            res = cursor.fetchone()[0]
             mysql_conn.commit()
             redis_conn.set(desc, str(item))
+            spider.hotsearch_item_id = res   # 返回插入的ID
             logging.info("process_hotsearch_list_detail ----> commit success")
         except Exception as e:
             logging.error("process_hotsearch_list_detail ----> commit fail", e)
@@ -126,5 +131,44 @@ class SinaHotsearchHistoryScrapyPipeline(object):
         finally:
             cursor.close()
             mysql_conn.close()
+            redis_conn.close()
+        return item
+
+    def process_hotsearch_blog(self, item, spider):
+
+        mysql_conn = self.__get_mysql_connection()
+        cursor = mysql_conn.cursor()
+
+        hotsearch_item_id = item['hotsearch_item_id']
+        user_id = item['user_id']
+        screen_name = item['screen_name']
+        mblog_id = item['mblog_id']
+        text = repr(item['text'])
+        pic_urls_str = item['pic_urls_str']
+        reports_count = item['reposts_count']
+        comments_count = item['comments_count']
+        attitudes_count = item['attitudes_count']
+
+        try:
+            mysql_conn.begin()
+            insert_blog_detail_sql = \
+                "INSERT INTO hotsearch_blog_detail " \
+                "(hotsearch_item_id,user_id,screen_name,mblog_id,text," \
+                "pic_urls_str,reposts_count,comments_count,attitudes_count) " \
+                "VALUES " \
+                "(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(insert_blog_detail_sql,
+                           (hotsearch_item_id, user_id, screen_name, mblog_id, text,
+                            pic_urls_str, reports_count, comments_count, attitudes_count))
+            mysql_conn.commit()
+            logging.info("process_hotsearch_list_detail ----> commit success")
+        except Exception as e:
+            logging.error("process_hotsearch_list_detail ----> commit fail", e)
+            logging.error("last_execute_sql ----> " + cursor._last_executed)
+            mysql_conn.rollback()
+        finally:
+            cursor.close()
+            mysql_conn.close()
+
         return item
 

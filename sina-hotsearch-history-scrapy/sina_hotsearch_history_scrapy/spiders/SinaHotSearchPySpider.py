@@ -3,11 +3,14 @@ import scrapy
 import json
 import urllib.parse
 import datetime
-import time
+import config
+from bs4 import BeautifulSoup
 from sina_hotsearch_history_scrapy.items import HotSearchList, HotSearchListItem, HotSearchRank, HotSearchBlogItem
+import logging
 
 
 class SinaHotSearchPySpider(scrapy.Spider):
+    logging = logging.getLogger(__name__)
     name = 'SinaHotSearchPySpider'
     allowed_domains = ['m.weibo.cn']
     base_url = 'https://m.weibo.cn/api/container/getIndex?'
@@ -25,7 +28,8 @@ class SinaHotSearchPySpider(scrapy.Spider):
         response_body = self.responsebody_to_json(response)
         hotsearch_start_time = response_body['data']['cardlistInfo']['starttime']
         start_time = datetime.datetime.fromtimestamp(hotsearch_start_time)
-        start_time = start_time - datetime.timedelta(seconds=start_time.second) - datetime.timedelta(seconds=start_time.microsecond)
+        start_time = start_time - datetime.timedelta(seconds=start_time.second) - datetime.timedelta(
+            seconds=start_time.microsecond)
         item = HotSearchList()
         item['time'] = start_time
         yield item
@@ -42,59 +46,74 @@ class SinaHotSearchPySpider(scrapy.Spider):
         # del hotsearch_list[0]  # 移除置顶
         i = 0
         for item in hotsearch_list:
-            hotsearch_list_item = HotSearchListItem()
             if 'desc_extr' not in item.keys():  # 置顶
                 continue
-            elif 'promotion' in item.keys():    # 推荐广告
+            elif 'promotion' in item.keys():  # 推荐广告
                 continue
 
-            hotsearch_list_item['hotsearch_id'] = self.hotsearch_list_id
-            hotsearch_list_item['hotsearch_rank'] = i
-            hotsearch_list_item['icon'] = item['icon'] if 'icon' in item.keys() else ''
-            hotsearch_list_item['desc'] = item['desc']
-            hotsearch_list_item['desc_extr'] = int(item['desc_extr'])
-            hotsearch_list_item['scheme'] = item['scheme']
-
-            scheme_url = item['scheme']
-            param_map = self.url_param_to_map(scheme_url)
-            url_param = urllib.parse.urlencode({"containerid": param_map["containerid"][0]})
-            detail_url = self.get_hotsearch_detail_url.format(URL_PARAM=url_param)
-
-            hotsearch_list_item['detail_url'] = detail_url
-
+            hotsearch_list_item = self.parse_to_hotsearch_list_item(self.hotsearch_list_id, i, item)
             yield hotsearch_list_item
 
-            # yield scrapy.Request(
-            #     url=detail_url,
-            #     callback=self.parse_get_hotsearch_detail,
-            #     meta={'index': i}
-            # )
+            yield scrapy.Request(
+                url=hotsearch_list_item['detail_url'],
+                callback=self.parse_get_hotsearch_blog_detail,
+                meta={'hotsearch_item_id': self.hotsearch_item_id}
+            )
             i += 1
         pass
 
-    def parse_get_hotsearch_detail(self, response):
-        index = response.meta['index']
-        response_body = self.responsebody_to_json(response)
+    def parse_get_hotsearch_blog_detail(self, response):
         try:
-            s = str(index) + " --> " + str(response_body['data']['cardlistInfo']['cardlist_title'])
-        except (KeyError, UnboundLocalError):
-            print(response_body)
+            hotsearch_item_id = response.meta['hotsearch_item_id']
+            response_body = self.responsebody_to_json(response)
+            cards = response_body['data']['cards']
+            max_collection_num = config.crawl_blog_num
+            i = 0
+            for card in cards:
+                if int(card['card_type']) == 9:
+                    blog_data = card['mblog']
+                    blog_item = self.parse_to_hostsearch_blog_detail(blog_data, hotsearch_item_id)
+                    yield blog_item
+                    i += 1
+                else:
+                    continue
+                if i >= max_collection_num:
+                    break
+        except (KeyError, UnboundLocalError) as e:
+            logging.error("parse_get_hotsearch_blog_detail ---> fail", e)
         pass
 
     @staticmethod
-    def parse_to_hotsearch_list(time, data):
-        hotsearch_list = data['cards'][0]['card_group']
-        resultList = []
-        for i, item in enumerate(hotsearch_list):
-            hotsearch = HotSearchListItem()
-            hotsearch['time'] = time
-            hotsearch['icon'] = item.icon
-            hotsearch['desc'] = hotsearch_list
-        pass
+    def parse_to_hotsearch_list_item(hotsearch_list_id, rank, item):
+        hotsearch_list_item = HotSearchListItem()
+        hotsearch_list_item['hotsearch_id'] = hotsearch_list_id
+        hotsearch_list_item['hotsearch_rank'] = rank
+        hotsearch_list_item['icon'] = item['icon'] if 'icon' in item.keys() else ''
+        hotsearch_list_item['desc'] = item['desc']
+        hotsearch_list_item['desc_extr'] = int(item['desc_extr'])
+        hotsearch_list_item['scheme'] = item['scheme']
+
+        scheme_url = item['scheme']
+        param_map = SinaHotSearchPySpider.url_param_to_map(scheme_url)
+        url_param = urllib.parse.urlencode({"containerid": param_map["containerid"][0]})
+        detail_url = SinaHotSearchPySpider.get_hotsearch_detail_url.format(URL_PARAM=url_param)
+
+        hotsearch_list_item['detail_url'] = detail_url
+        return hotsearch_list_item
 
     @staticmethod
-    def parse_to_hostsearch_list_detail_item(data):
-        pass
+    def parse_to_hostsearch_blog_detail(blog_data, hotsearch_item_id):
+        blog_item = HotSearchBlogItem()
+        blog_item['hotsearch_item_id'] = int(hotsearch_item_id)
+        blog_item['user_id'] = int(blog_data['user']['id'])
+        blog_item['screen_name'] = blog_data['user']['screen_name']
+        blog_item['mblog_id'] = blog_data['id']
+        blog_item['text'] = SinaHotSearchPySpider.cleanDate(blog_data['text'])
+        blog_item['pic_urls_str'] = SinaHotSearchPySpider.get_pic_list_str(blog_data)
+        blog_item['reposts_count'] = int(blog_data['reposts_count'])
+        blog_item['comments_count'] = int(blog_data['comments_count'])
+        blog_item['attitudes_count'] = int(blog_data['attitudes_count'])
+        return blog_item
 
     @staticmethod
     def responsebody_to_json(response):
@@ -105,3 +124,21 @@ class SinaHotSearchPySpider(scrapy.Spider):
         param = url.split('?')[1]
         param = urllib.parse.parse_qs(param)
         return param
+
+    @staticmethod
+    def cleanDate(str_data):
+        bs = BeautifulSoup(str_data, "html.parser")
+        return bs.text
+
+    @staticmethod
+    def get_pic_list_str(data):
+        s = ''
+        if 'pics' in data.keys():
+            length = len(data['pics'])
+            for i in range(length):
+                pic = data['pics'][i]
+                pic_url = pic['url']
+                s += pic_url
+                if i < length - 1:
+                    s += ','
+        return s
