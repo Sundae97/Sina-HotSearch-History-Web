@@ -40,6 +40,11 @@ class SinaHotSearchPySpider(scrapy.Spider):
         pass
 
     def parse_get_hotsearch_list(self, response):
+        '''
+        获取微博热搜列表
+        :param response:
+        :return:
+        '''
         response_body = self.responsebody_to_json(response)
         hotsearch_list = response_body['data']['cards'][0]['card_group']
         # del hotsearch_list[3]  # 移除推荐
@@ -54,6 +59,9 @@ class SinaHotSearchPySpider(scrapy.Spider):
             hotsearch_list_item = self.parse_to_hotsearch_list_item(self.hotsearch_list_id, i, item)
             yield hotsearch_list_item
 
+            if self.exists_the_hotsearch:   # 如果是已经在redis中存在的热搜 就不进行获取热门微博
+                logging.info(item['desc'] + " ----> exist continue")
+                continue
             yield scrapy.Request(
                 url=hotsearch_list_item['detail_url'],
                 callback=self.parse_get_hotsearch_blog_detail,
@@ -63,11 +71,16 @@ class SinaHotSearchPySpider(scrapy.Spider):
         pass
 
     def parse_get_hotsearch_blog_detail(self, response):
+        '''
+        获取微博热搜的热门微博
+        :param response:
+        :return:
+        '''
         try:
             hotsearch_item_id = response.meta['hotsearch_item_id']
             response_body = self.responsebody_to_json(response)
             cards = response_body['data']['cards']
-            max_collection_num = config.crawl_blog_num
+            max_collection_num = config.crawl_blog_num  # 获取热门微博的数量
             i = 0
             for card in cards:
                 if int(card['card_type']) == 9:

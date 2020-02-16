@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import datetime
 # Scrapy settings for sina_hotsearch_history_scrapy project
 #
 # For simplicity, this file contains only settings considered important or
@@ -24,6 +24,15 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
+
+# TODO ENABLE
+# today = datetime.datetime.now()
+# log_file_path = "log/scrapy_{}_{}_{}.log".format(today.year, today.month, today.day)
+#
+# LOG_LEVEL = "INFO"
+# LOG_FILE = log_file_path
+
+
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

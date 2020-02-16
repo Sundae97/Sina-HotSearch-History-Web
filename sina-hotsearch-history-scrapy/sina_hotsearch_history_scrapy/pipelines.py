@@ -7,6 +7,7 @@ import pymysql.cursors
 from DBUtils.PooledDB import PooledDB, SharedDBConnection
 import redis
 import config
+import json
 
 
 class SinaHotsearchHistoryScrapyPipeline(object):
@@ -94,23 +95,39 @@ class SinaHotsearchHistoryScrapyPipeline(object):
         scheme = item['scheme']
         detail_url = item['detail_url']
 
+        item_dict = {
+            'hotsearch_id': hotsearch_id,
+            'hotsearch_rank': hotsearch_rank,
+            'icon': icon,
+            'desc': desc,
+            'desc_extr': desc_extr,
+            'scheme': scheme,
+            'detail_url': detail_url
+        }
+
         redis_conn = self.__get_redis_connection()
         mysql_conn = self.__get_mysql_connection()
         cursor = mysql_conn.cursor()
-
         try:
             mysql_conn.begin()
-            insert_list_detail_sql = \
-                "INSERT INTO hotsearch_list_detail " \
-                "(icon,`desc`,desc_extr,scheme,detail_url) " \
-                "VALUES " \
-                "(%s, %s, %s, %s, %s)"
-            cursor.execute(insert_list_detail_sql,
-                           (icon, desc, desc_extr, scheme, detail_url))
-            cursor.execute("SELECT @@identity")     # 查询主键
-            res = cursor.fetchone()
-            hotsearch_list_detail_id = res[0]
+            # 判断redis中是否存在这个标题的热搜
+            spider.exists_the_hotsearch = redis_conn.exists(desc)
+            if spider.exists_the_hotsearch:    # 如果存在就从redis中取出热搜的id,并且不插入数据库
+                exist_item = json.loads(redis_conn.get(desc))
+                hotsearch_list_detail_id = int(exist_item['id'])
+            else:   # 否则就插入到mysql
+                insert_list_detail_sql = \
+                    "INSERT INTO hotsearch_list_detail " \
+                    "(icon,`desc`,desc_extr,scheme,detail_url) " \
+                    "VALUES " \
+                    "(%s, %s, %s, %s, %s)"
+                cursor.execute(insert_list_detail_sql,
+                               (icon, desc, desc_extr, scheme, detail_url))
+                cursor.execute("SELECT @@identity")     # 查询主键
+                res = cursor.fetchone()
+                hotsearch_list_detail_id = res[0]
 
+            # 插入到热搜排行表
             insert_rank_sql = \
                 "INSERT INTO hotsearch_rank " \
                 "(hotsearch_id,hotsearch_detail_id,rank) " \
@@ -121,7 +138,9 @@ class SinaHotsearchHistoryScrapyPipeline(object):
             cursor.execute("SELECT @@identity")     # 查询主键
             res = cursor.fetchone()[0]
             mysql_conn.commit()
-            redis_conn.set(desc, str(item))
+
+            item_dict['id'] = res
+            redis_conn.set(desc, json.dumps(item_dict), ex=config.expiration_time)  # 重新设置redis,并且重置过期时间
             spider.hotsearch_item_id = res   # 返回插入的ID
             logging.info("process_hotsearch_list_detail ----> commit success")
         except Exception as e:

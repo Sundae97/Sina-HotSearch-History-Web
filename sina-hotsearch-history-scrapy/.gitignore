@@ -2,3 +2,4 @@
 
 **/__pycache__
 sina_hotsearch_history_scrapy/config.txt
+sina_hotsearch_history_scrapy/log/*.log
