@@ -1,0 +1,6 @@
+redis
+DBUtils
+pymysql
+beautifulsoup4
+scrapy
+schedule
