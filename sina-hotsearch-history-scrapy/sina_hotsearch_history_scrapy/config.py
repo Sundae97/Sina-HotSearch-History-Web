@@ -12,5 +12,6 @@ def get_config_value(section, option):
     return config.get(section=section, option=option)
 
 
+interval = int(get_config_value('config', 'interval'))
 crawl_blog_num = int(get_config_value('config', 'crawl_blog_num'))
 expiration_time = int(get_config_value('config', 'expiration_time'))  # 在Redis中存储热搜标题的过期时间 秒

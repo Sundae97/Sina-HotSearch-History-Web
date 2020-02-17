@@ -25,11 +25,11 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
-# TODO ENABLE
 today = datetime.datetime.now()
 log_file_path = "log/scrapy_{}_{}_{}.log".format(today.year, today.month, today.day)
 
-LOG_LEVEL = "ERROR"
+LOG_LEVEL = "INFO"
+# TODO LOGGER FILE ENABLE
 LOG_FILE = log_file_path
 
 

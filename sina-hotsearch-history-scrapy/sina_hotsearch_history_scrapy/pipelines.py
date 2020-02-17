@@ -30,7 +30,7 @@ class SinaHotsearchHistoryScrapyPipeline(object):
             user=config.get_config_value('mysql', 'user'),
             password=config.get_config_value('mysql', 'password'),
             database=config.get_config_value('mysql', 'database'),
-            charset=config.get_config_value('mysql', 'charset')
+            charset=config.get_config_value('mysql', 'charset'),
         )
 
     def __init_redis(self):
@@ -135,17 +135,15 @@ class SinaHotsearchHistoryScrapyPipeline(object):
                 "(%s,%s,%s)"
             cursor.execute(insert_rank_sql,
                            (hotsearch_id, hotsearch_list_detail_id, hotsearch_rank))
-            cursor.execute("SELECT @@identity")     # 查询主键
-            res = cursor.fetchone()[0]
             mysql_conn.commit()
 
-            item_dict['id'] = res
+            item_dict['id'] = hotsearch_list_detail_id
             redis_conn.set(desc, json.dumps(item_dict), ex=config.expiration_time)  # 重新设置redis,并且重置过期时间
-            spider.hotsearch_item_id = res   # 返回插入的ID
+            spider.hotsearch_item_id = hotsearch_list_detail_id   # 返回插入的ID
             logging.info("process_hotsearch_list_detail ----> commit success")
         except Exception as e:
             logging.error("process_hotsearch_list_detail ----> commit fail", e)
-            logging.error("last_execute_sql ----> " + cursor._last_executed)
+            logging.error("process_hotsearch_list_detail ----> last_execute_sql ----> " + cursor._last_executed)
             mysql_conn.rollback()
         finally:
             cursor.close()
@@ -180,10 +178,10 @@ class SinaHotsearchHistoryScrapyPipeline(object):
                            (hotsearch_item_id, user_id, screen_name, mblog_id, text,
                             pic_urls_str, reports_count, comments_count, attitudes_count))
             mysql_conn.commit()
-            logging.info("process_hotsearch_list_detail ----> commit success")
+            logging.info("process_hotsearch_blog ----> commit success")
         except Exception as e:
-            logging.error("process_hotsearch_list_detail ----> commit fail", e)
-            logging.error("last_execute_sql ----> " + cursor._last_executed)
+            logging.error("process_hotsearch_blog ----> commit fail", e)
+            logging.error("process_hotsearch_blog ----> last_execute_sql ----> " + cursor._last_executed)
             mysql_conn.rollback()
         finally:
             cursor.close()
