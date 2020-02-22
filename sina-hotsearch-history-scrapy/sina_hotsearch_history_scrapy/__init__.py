@@ -13,7 +13,7 @@ logging = logging.getLogger(__name__)
 
 
 def job():
-    os.system("scrapy crawl SinaHotSearchPySpider")
+    os.popen("scrapy crawl SinaHotSearchPySpider")
 
 
 if __name__ == '__main__':
