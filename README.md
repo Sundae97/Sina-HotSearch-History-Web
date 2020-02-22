@@ -5,7 +5,7 @@
 | --- | --- |
 | config | 各种需要用到的配置文件 |
 | Dockerfiles |应用构建Docker镜像的dockerfile |
-| sina-hotsearch-history-frontend |基于Vue的网站前端页面项目 |
+| sina-hotsearch-history-frontend(Need to modify) |基于Vue的网站前端页面项目 |
 | sina-hotsearch-history-scrapy | 基于scrapy的爬虫 |
 | sina-hotsearch-history-backend(TODO)| 基于SpringBoot的网站后端|
 
