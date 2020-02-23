@@ -3,9 +3,11 @@
         <v-app-bar
                 :height="58"
                 clipped-left
-                color="blue darken-3"
+                color="orange darken-3"
                 app
+                dense
                 dark
+                hide-on-scroll
         >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
             <v-toolbar-title
@@ -35,7 +37,18 @@
         </v-navigation-drawer>
 
         <v-content>
-            <MainContent/>
+            <MainContent id="scroll-target"/>
+            <v-btn
+                    bottom
+                    color="blue"
+                    @click="$vuetify.goTo('#scroll-target', {offset:0,duration:600,easing:'easeInOutCubic'})"
+                    dark
+                    fab
+                    fixed
+                    right
+            >
+                <v-icon>mdi-chevron-up</v-icon>
+            </v-btn>
         </v-content>
 
     </v-app>
