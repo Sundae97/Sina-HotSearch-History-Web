@@ -90,7 +90,7 @@ class SinaHotsearchHistoryScrapyPipeline(object):
         hotsearch_id = item['hotsearch_id']
         hotsearch_rank = item['hotsearch_rank']
         icon = item['icon']
-        desc = repr(item['desc'])
+        desc = item['desc']
         desc_extr = item['desc_extr']
         scheme = item['scheme']
         detail_url = item['detail_url']
@@ -160,7 +160,7 @@ class SinaHotsearchHistoryScrapyPipeline(object):
         user_id = item['user_id']
         screen_name = item['screen_name']
         mblog_id = item['mblog_id']
-        text = repr(item['text'])
+        text = item['text']
         pic_urls_str = item['pic_urls_str']
         reports_count = item['reposts_count']
         comments_count = item['comments_count']
