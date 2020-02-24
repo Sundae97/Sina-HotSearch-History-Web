@@ -16,7 +16,7 @@
 `docker run -itd --name --restart=always redis-test -p 6379:6379 redis --requirepass "123456"`
 
 ### step 2:启动mysql
-`docker run -d -p 3306:3306 --restart=always --privileged=true -v /root/mysql/conf/mysql5.6.conf:/etc/mysql/my.cnf -v /root/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=cfxz1997 --name mysql-test mysql:5.7`
+`docker run -d -p 3306:3306 --restart=always --privileged=true -v /root/mysql/conf/mysql5.6.conf:/etc/mysql/my.cnf -v /root/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-test mysql:5.7`
 
 | 参数 | 用途 |
 |---|---|
