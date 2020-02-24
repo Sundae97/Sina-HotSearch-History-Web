@@ -1,10 +1,10 @@
 <template>
     <div>
         <v-row justify="center">
-            <v-date-picker style="margin: 10px 18px;" v-model="date_picker" locale="zh-cn"/>
+            <v-date-picker style="margin: 10px 18px;" v-model="date_picker" locale="zh-cn"  color="amber darken-1"/>
         </v-row>
         <v-row justify="center">
-            <v-time-picker v-model="time_picker" format="24hr" :ampm-in-title="true" locale="zh-cn"></v-time-picker>
+            <v-time-picker v-model="time_picker" format="24hr" :ampm-in-title="true" locale="zh-cn" color="amber darken-1"></v-time-picker>
         </v-row>
         <v-row justify="center" style="margin-top: 30px;margin-bottom: 18px;">
             <div class="text-center" style="margin-right: 24px;">

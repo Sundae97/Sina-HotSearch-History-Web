@@ -2,8 +2,7 @@
     <v-app id="main">
         <v-app-bar
                 :height="58"
-                clipped-left
-                color="orange darken-3"
+                color="amber darken-2"
                 app
                 dense
                 dark
@@ -31,7 +30,6 @@
                 v-model="drawer"
                 :width="320"
                 app
-                clipped
         >
             <MainDrawerContent @closeDrawer="closeDrawer"/>
         </v-navigation-drawer>
