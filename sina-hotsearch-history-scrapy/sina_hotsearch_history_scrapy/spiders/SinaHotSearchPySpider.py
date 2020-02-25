@@ -120,6 +120,7 @@ class SinaHotSearchPySpider(scrapy.Spider):
         blog_item['hotsearch_item_id'] = int(hotsearch_item_id)
         blog_item['user_id'] = int(blog_data['user']['id'])
         blog_item['screen_name'] = blog_data['user']['screen_name']
+        blog_item['user_head_img'] = blog_data['user']['avatar_hd']
         blog_item['mblog_id'] = blog_data['id']
         blog_item['text'] = SinaHotSearchPySpider.cleanDate(blog_data['text'])
         blog_item['pic_urls_str'] = SinaHotSearchPySpider.get_pic_list_str(blog_data)

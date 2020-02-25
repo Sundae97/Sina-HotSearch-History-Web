@@ -52,6 +52,10 @@ class HotSearchBlogItem(scrapy.Item):
     # data.cards[0].card_group[0].user.screen_name
     screen_name = scrapy.Field()
 
+    # 用户显示的头像url
+    # data.cards[0].card_group[0].user.avatar_hd
+    user_head_img = scrapy.Field()
+
     # 微博正文ID
     # data.cards[0].mblog.id
     mblog_id = scrapy.Field()

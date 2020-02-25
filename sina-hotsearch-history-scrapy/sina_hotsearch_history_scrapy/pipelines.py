@@ -159,6 +159,7 @@ class SinaHotsearchHistoryScrapyPipeline(object):
         hotsearch_item_id = item['hotsearch_item_id']
         user_id = item['user_id']
         screen_name = item['screen_name']
+        user_head_img = item['user_head_img']
         mblog_id = item['mblog_id']
         text = item['text']
         pic_urls_str = item['pic_urls_str']
@@ -170,13 +171,13 @@ class SinaHotsearchHistoryScrapyPipeline(object):
             mysql_conn.begin()
             insert_blog_detail_sql = \
                 "INSERT INTO hotsearch_blog_detail " \
-                "(hotsearch_item_id,user_id,screen_name,mblog_id,text," \
+                "(hotsearch_item_id,user_id,screen_name,user_head_img,mblog_id,text," \
                 "pic_urls_str,reposts_count,comments_count,attitudes_count) " \
                 "VALUES " \
-                "(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(insert_blog_detail_sql,
-                           (hotsearch_item_id, user_id, screen_name, mblog_id, text,
-                            pic_urls_str, reports_count, comments_count, attitudes_count))
+                           (hotsearch_item_id, user_id, screen_name, user_head_img, mblog_id,
+                            text, pic_urls_str, reports_count, comments_count, attitudes_count))
             mysql_conn.commit()
             logging.info("process_hotsearch_blog ----> commit success")
         except Exception as e:
