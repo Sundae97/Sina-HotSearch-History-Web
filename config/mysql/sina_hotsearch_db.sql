@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : aliyun
+ Source Server         : tencent
  Source Server Type    : MySQL
- Source Server Version : 50728
- Source Host           : 47.100.183.36:3306
+ Source Server Version : 50729
+ Source Host           : 212.64.34.214:3306
  Source Schema         : sina_hotsearch_db
 
  Target Server Type    : MySQL
- Target Server Version : 50728
+ Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 22/02/2020 17:19:28
+ Date: 25/02/2020 15:08:14
 */
 
 SET NAMES utf8mb4;
@@ -26,6 +26,7 @@ CREATE TABLE `hotsearch_blog_detail`  (
   `hotsearch_item_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `screen_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_head_img` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `mblog_id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `pic_urls_str` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
@@ -36,7 +37,7 @@ CREATE TABLE `hotsearch_blog_detail`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_hotsearch_blog_detail_hotsearch_list_detail_1`(`hotsearch_item_id`) USING BTREE,
   CONSTRAINT `fk_hotsearch_blog_detail_hotsearch_list_detail_1` FOREIGN KEY (`hotsearch_item_id`) REFERENCES `hotsearch_list_detail` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 920 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1103 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for hotsearch_list
@@ -44,9 +45,9 @@ CREATE TABLE `hotsearch_blog_detail`  (
 DROP TABLE IF EXISTS `hotsearch_list`;
 CREATE TABLE `hotsearch_list`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `time` timestamp(0) NULL,
+  `time` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 622 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3873 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for hotsearch_list_detail
@@ -60,7 +61,7 @@ CREATE TABLE `hotsearch_list_detail`  (
   `scheme` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `detail_url` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 600 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for hotsearch_rank
@@ -76,6 +77,6 @@ CREATE TABLE `hotsearch_rank`  (
   INDEX `index_hotsearch_detail_id`(`hotsearch_detail_id`) USING BTREE,
   CONSTRAINT `fk_hotsearch_rank_hotsearch_list_1` FOREIGN KEY (`hotsearch_id`) REFERENCES `hotsearch_list` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_hotsearch_rank_hotsearch_list_detail_1` FOREIGN KEY (`hotsearch_detail_id`) REFERENCES `hotsearch_list_detail` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 30056 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 161184 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
