@@ -56,6 +56,7 @@ class SinaHotSearchPySpider(scrapy.Spider):
             elif 'promotion' in item.keys():  # 推荐广告
                 continue
 
+            i += 1
             hotsearch_list_item = self.parse_to_hotsearch_list_item(self.hotsearch_list_id, i, item)
             yield hotsearch_list_item
 
@@ -67,7 +68,6 @@ class SinaHotSearchPySpider(scrapy.Spider):
                 callback=self.parse_get_hotsearch_blog_detail,
                 meta={'hotsearch_item_id': self.hotsearch_item_id}
             )
-            i += 1
         pass
 
     def parse_get_hotsearch_blog_detail(self, response):
