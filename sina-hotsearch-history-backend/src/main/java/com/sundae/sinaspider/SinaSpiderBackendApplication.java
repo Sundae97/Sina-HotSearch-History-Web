@@ -1,13 +1,15 @@
 package com.sundae.sinaspider;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SinaspiderApplication {
+@MapperScan("com.sundae.sinaspide.dao.mapper")
+public class SinaSpiderBackendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SinaspiderApplication.class, args);
+        SpringApplication.run(SinaSpiderBackendApplication.class, args);
     }
 
 }
