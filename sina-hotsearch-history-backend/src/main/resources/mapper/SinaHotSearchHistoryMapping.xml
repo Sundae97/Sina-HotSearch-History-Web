@@ -1,17 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sundae.sinaspider.dao.SinaHotSearchHistoryDao">
+
+    <select id="getHotSearchByTime" parameterType="java.lang.String" resultMap="HotSearchMap">
+        SELECT
+            id,time
+        FROM
+            hotsearch_list
+        WHERE
+            time = #{time}
+    </select>
+    
+    <select id="getHotSearchDetailAndBlogByHotSearchId" parameterType="java.lang.Long" resultMap="HotSearchDetailMap">
+        SELECT
+            a.rank,
+            b.`desc`,
+            b.icon,
+            c.user_id,
+            c.screen_name,
+            c.user_head_img,
+            c.mblog_id,
+            c.text,
+            c.pic_urls_str,
+            c.reposts_count,
+            c.comments_count,
+            c.attitudes_count,
+            c.created_time
+        FROM
+            hotsearch_rank a,
+            hotsearch_list_detail b,
+            hotsearch_blog_detail c
+        WHERE
+            a.hotsearch_id = #{hotSearchId}
+            AND a.hotsearch_detail_id = b.id
+            AND b.id = c.hotsearch_item_id
+    </select>
+
     <resultMap id="HotSearchMap" type="com.sundae.sinaspider.domain.HotSearch">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="time" property="time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <select id="getHotSearchByTime" parameterType="java.lang.String" resultMap="HotSearchMap">
-        SELECT
-        id,time
-        FROM
-        hotsearch_list
-        where
-        time = #{time}
-    </select>
+    <resultMap id="HotSearchDetailMap" type="com.sundae.sinaspider.domain.HotSearchDetailPOJO">
+        <result column="rank" property="rank" jdbcType="INTEGER"/>
+        <result column="desc" property="desc" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="screen_name" property="screenName" jdbcType="VARCHAR"/>
+        <result column="user_head_img" property="userHeadImgUrl" jdbcType="VARCHAR"/>
+        <result column="mblog_id" property="blogId" jdbcType="VARCHAR"/>
+        <result column="text" property="text" jdbcType="CLOB"/>
+        <result column="pic_urls_str" property="picUrlsString" jdbcType="VARCHAR"/>
+        <result column="reposts_count" property="repostsCount" jdbcType="VARCHAR"/>
+        <result column="comments_count" property="commentsCount" jdbcType="VARCHAR"/>
+        <result column="attitudes_count" property="attitudesCount" jdbcType="VARCHAR"/>
+        <result column="created_time" property="time" jdbcType="TIMESTAMP"/>
+    </resultMap>
 </mapper>
