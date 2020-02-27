@@ -30,6 +30,7 @@ public class SinaHotSearchHistoryServiceImpl implements HotSearchHistoryService 
             generalListResponse.setSize(hotSearchDetailList.size());
             generalListResponse.setData(hotSearchDetailList);
         }
+        //TODO HotSearchDetailPOJO convert to HotSearchDetail and BlogDetail
         return generalListResponse;
     }
 }
