@@ -3,9 +3,11 @@ package com.sundae.sinaspider.domain;
 import java.util.Date;
 
 public class HotSearchDetailPOJO {
+    private long hotsearchDetailId;
     private int rank;
     private String desc;
     private String icon;
+    private long hotsearchBlogDetailId;
     private long userId;
     private String screenName;
     private String userHeadImgUrl;
@@ -16,6 +18,14 @@ public class HotSearchDetailPOJO {
     private int commentsCount;
     private int attitudesCount;
     private Date time;
+
+    public long getHotsearchDetailId() {
+        return hotsearchDetailId;
+    }
+
+    public void setHotsearchDetailId(long hotsearchDetailId) {
+        this.hotsearchDetailId = hotsearchDetailId;
+    }
 
     public int getRank() {
         return rank;
@@ -39,6 +49,14 @@ public class HotSearchDetailPOJO {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public long getHotsearchBlogDetailId() {
+        return hotsearchBlogDetailId;
+    }
+
+    public void setHotsearchBlogDetailId(long hotsearchBlogDetailId) {
+        this.hotsearchBlogDetailId = hotsearchBlogDetailId;
     }
 
     public long getUserId() {
@@ -124,9 +142,11 @@ public class HotSearchDetailPOJO {
     @Override
     public String toString() {
         return "HotSearchDetailPOJO{" +
-                "rank=" + rank +
+                "hotsearchDetailId=" + hotsearchDetailId +
+                ", rank=" + rank +
                 ", desc='" + desc + '\'' +
                 ", icon='" + icon + '\'' +
+                ", hotsearchBlogDetailId=" + hotsearchBlogDetailId +
                 ", userId=" + userId +
                 ", screenName='" + screenName + '\'' +
                 ", userHeadImgUrl='" + userHeadImgUrl + '\'' +

@@ -1,6 +1,7 @@
 package com.sundae.sinaspider.controller;
 
 import com.sundae.sinaspider.dao.SinaHotSearchHistoryDao;
+import com.sundae.sinaspider.domain.HotSearchDetail;
 import com.sundae.sinaspider.domain.HotSearchDetailPOJO;
 import com.sundae.sinaspider.dto.GeneralListResponse;
 import com.sundae.sinaspider.service.HotSearchHistoryService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/sina")
@@ -22,7 +24,7 @@ public class SinaHotSearchApiController {
     private HotSearchHistoryService sinaHotSearchHistoryService;
 
     @RequestMapping(value = "/get_hotsearch_detail_list", method = RequestMethod.GET)
-    public GeneralListResponse<List<HotSearchDetailPOJO>> getHotSearchDetailList(@PathParam("time") long time){
+    public GeneralListResponse<Map<Integer, HotSearchDetail>> getHotSearchDetailList(@PathParam("time") long time){
         return sinaHotSearchHistoryService.getHotSearchDetailList(time);
     }
 

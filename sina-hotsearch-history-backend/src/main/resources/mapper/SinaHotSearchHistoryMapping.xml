@@ -13,9 +13,11 @@
     
     <select id="getHotSearchDetailAndBlogByHotSearchId" parameterType="java.lang.Long" resultMap="HotSearchDetailMap">
         SELECT
+            b.id AS `hotsearch_detail_id`,
             a.rank,
             b.`desc`,
             b.icon,
+            c.id AS `hotsearch_blog_detail_id`,
             c.user_id,
             c.screen_name,
             c.user_head_img,
@@ -42,9 +44,11 @@
     </resultMap>
 
     <resultMap id="HotSearchDetailMap" type="com.sundae.sinaspider.domain.HotSearchDetailPOJO">
+        <result column="hotsearch_detail_id" property="hotsearchDetailId" jdbcType="BIGINT"/>
         <result column="rank" property="rank" jdbcType="INTEGER"/>
         <result column="desc" property="desc" jdbcType="VARCHAR"/>
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="hotsearch_blog_detail_id" property="hotsearchBlogDetailId" jdbcType="BIGINT"/>
         <result column="user_id" property="userId" jdbcType="BIGINT"/>
         <result column="screen_name" property="screenName" jdbcType="VARCHAR"/>
         <result column="user_head_img" property="userHeadImgUrl" jdbcType="VARCHAR"/>
