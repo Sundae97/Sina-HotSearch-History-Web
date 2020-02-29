@@ -19,7 +19,9 @@
 
 <script>
     import axios from 'axios'
+    import config_data from "../../public/config/config"
 
+    const base_url = config_data.GET_SINA_HOTSEARCH_BASE_URL;
     export default {
         name: 'MainDrawerList',
         props: {
@@ -34,7 +36,7 @@
             this.time_picker = this.getNowTimeStr();
             axios({
                 method: 'GET',
-                url: '//localhost:8081/sina/get_hotsearch_detail_list?time=1582362420000',
+                url: base_url + '/sina/get_hotsearch_detail_list?time=1582362420000',
             }).then((response) => {
                 console.log(response)
             }).catch((error) => {
@@ -46,11 +48,11 @@
                 let date = this.$data.date_picker;
                 let time = this.$data.time_picker;
                 let str = date + " " + time;
-                console.log("realTimeBtnClick ---> " + new Date(str));
+                console.log("realTimeBtnClick ---> " + new Date(str).getTime());
                 this.$emit("closeDrawer");
             },
             realTimeBtnClick: function () {
-                console.log("realTimeBtnClick ---> " + new Date().toLocaleString());
+                console.log("realTimeBtnClick ---> " + new Date().getTime());
                 this.$emit("closeDrawer");
             },
             getTodayStr: function () {
