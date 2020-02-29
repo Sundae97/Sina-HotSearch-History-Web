@@ -18,6 +18,8 @@
 </template>
 
 <script>
+    import axios from 'axios'
+
     export default {
         name: 'MainDrawerList',
         props: {
@@ -30,6 +32,14 @@
         created () {
             this.date_picker = this.getTodayStr();
             this.time_picker = this.getNowTimeStr();
+            axios({
+                method: 'GET',
+                url: '//localhost:8081/sina/get_hotsearch_detail_list?time=1582362420000',
+            }).then((response) => {
+                console.log(response)
+            }).catch((error) => {
+                console.log(error)
+            })
         },
         methods: {
             queryBtnClick:function () {
