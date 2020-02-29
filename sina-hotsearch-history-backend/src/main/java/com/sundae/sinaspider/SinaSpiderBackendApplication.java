@@ -18,6 +18,7 @@ public class SinaSpiderBackendApplication {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
+        System.out.println(System.getProperty("user.dir"));
         SpringApplication.run(SinaSpiderBackendApplication.class, args);
     }
 
