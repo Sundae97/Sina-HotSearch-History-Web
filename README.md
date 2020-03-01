@@ -10,7 +10,7 @@
 | sina-hotsearch-history-backend(TODO)| 基于SpringBoot的网站后端|
 
  
- 
+
 ## 启动步骤
 ### step 1:启动redis
 `docker run -itd --name --restart=always redis-test -p 6379:6379 redis --requirepass "123456"`
@@ -31,3 +31,7 @@
 | -e TZ=Asia/Shanghai | 设置docker容器内时区 |
 | -v /root/sina-hotsearch-web/spider/log:/sina-hotsearch-history-scrapy/sina_hotsearch_history_scrapy/log | 映射log存储位置 |
 | -v /root/sina-hotsearch-web/spider/config.txt:/sina-hotsearch-history-scrapy/sina_hotsearch_history_scrapy/config.txt | 映射配置文件(Mysql,Redis连接信息) |
+
+## TODO
+
+- [ ] 增加配置文件，用于docker启动时映射配置文件，需要修改程序
