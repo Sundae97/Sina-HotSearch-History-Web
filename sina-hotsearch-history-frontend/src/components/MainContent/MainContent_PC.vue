@@ -6,7 +6,7 @@
           <v-timeline-item
                   v-for="(item, i) in items"
                   :key="i+1"
-                  :color="item.color"
+                  :color="time_line_num_color"
                   :icon="(i+1)+''"
                   fill-dot
                   left
@@ -16,7 +16,6 @@
               <v-card
                       class="mx-auto"
                       :color="item.color"
-                      dark
               >
                 <v-card-title style="font-size: 1.1em;padding: 8px;" v-on:click="item.show = !item.show" v-ripple>
                   Top western road trips
@@ -46,7 +45,6 @@
         </v-timeline>
       </v-col>
     </v-row>
-
 <!--      <v-progress-circular-->
 <!--              :size="70"-->
 <!--              :width="7"-->
@@ -72,20 +70,21 @@
     name: 'MainContent',
     components: {BlogCard},
     data: () => ({
+      time_line_num_color: "white",
       items: [
         {
           show: false,
-          color: 'orange darken-1',
+          color: 'white',
           icon: 'mdi-star',
         },
         {
           show: false,
-          color: 'orange darken-1',
+          color: 'white',
           icon: 'mdi-book-variant',
         },
         {
           show: false,
-          color: 'green lighten-1',
+          color: 'white',
           icon: 'mdi-airballoon',
         },
         {
@@ -307,7 +306,7 @@
         offset: 0,
         mobile: true,
         live: false
-      })
+      });
       wow.init()
     },
 

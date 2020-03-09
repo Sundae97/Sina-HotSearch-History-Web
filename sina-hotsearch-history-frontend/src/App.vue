@@ -36,17 +36,7 @@
 
         <v-content>
             <MainContent id="scroll-target"/>
-            <v-btn
-                    bottom
-                    color="blue"
-                    @click="$vuetify.goTo('#scroll-target', {offset:0,duration:600,easing:'easeInOutCubic'})"
-                    dark
-                    fab
-                    fixed
-                    right
-            >
-                <v-icon>mdi-chevron-up</v-icon>
-            </v-btn>
+          <el-backtop></el-backtop>
         </v-content>
 
     </v-app>
@@ -54,8 +44,22 @@
 
 <script>
     import MainDrawerContent from "@/components/MainDrawerContent";
-    import MainContent from "@/components/MainContent";
+    import MainContent_PC from "@/components/MainContent/MainContent_PC";
+    import MainContent_Mobile from "@/components/MainContent/MainContent_Mobile";
 
+    let MainContent;
+
+    function _isMobile(){
+        // let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+        // return flag;
+        return document.documentElement.clientWidth < 650;
+    }
+
+    if (_isMobile()) {
+        MainContent = MainContent_Mobile;
+    } else {
+        MainContent = MainContent_PC;
+    }
     export default {
         name: 'App',
 
@@ -66,10 +70,10 @@
         data: () => ({
             drawer: null,
         }),
-        methods:{
+        methods: {
             closeDrawer() {
                 this.drawer = false;
-            }
-        }
+            },
+        },
     };
 </script>
