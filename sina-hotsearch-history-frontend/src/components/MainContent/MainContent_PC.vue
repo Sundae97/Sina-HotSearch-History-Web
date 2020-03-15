@@ -18,7 +18,7 @@
                       :color="item.color"
               >
                 <v-card-title style="font-size: 1.1em;padding: 8px;" v-on:click="item.show = !item.show" v-ripple>
-                  Top western road trips
+                  {{item.title}}
                   <v-spacer></v-spacer>
 
                   <v-btn
@@ -32,12 +32,11 @@
                 <v-expand-transition>
                   <div v-show="item.show">
                     <v-divider></v-divider>
-
-                          <v-row style="padding: 5px;">
-                            <v-col class="blog-card"><BlogCard></BlogCard></v-col>
-                            <v-col class="blog-card"><BlogCard></BlogCard></v-col>
-                          </v-row>
-
+                    <v-row style="padding: 5px;">
+                      <v-col class="blog-card" v-for="blogItem in items.blogDetails" :key="blogItem.blogId">
+                        <BlogCard v-bind:key="blogItem"/>
+                      </v-col>
+                    </v-row>
                   </div>
                 </v-expand-transition>
               </v-card>
@@ -63,6 +62,7 @@
 </style>
 
 <script>
+  import GetHotSearchListService from "@/service/GetHotSearchListService";
   import {WOW} from 'wowjs'
   import BlogCard from "@/components/BlogCard";
 
@@ -70,245 +70,51 @@
     name: 'MainContent',
     components: {BlogCard},
     data: () => ({
-      time_line_num_color: "white",
-      items: [
-        {
-          show: false,
-          color: 'white',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'white',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'white',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-        {
-          show: false,
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          show: false,
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          show: false,
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          show: false,
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        },
-      ],
+      _this: this,
+      time_line_num_color: "#edaa29",
+      items: [],
     }),
     mounted(){
-      const wow = new WOW({
-        boxClass: 'wow',
-        animateClass: 'animated',
-        offset: 0,
-        mobile: true,
-        live: false
-      });
-      wow.init()
+      this.initList();
+      this.initWOW();
     },
-
+    methods: {
+      initWOW() {
+        const wow = new WOW({
+          boxClass: 'wow',
+          animateClass: 'animated',
+          offset: 0,
+          mobile: true,
+          live: true
+        });
+        wow.init()
+      },
+      initList(){
+        for (let i = 0; i < 50; i++) {
+          this.items.push({color: '#ebebeb', show:false, title: ""});
+        }
+      },
+      async updateHotSearchList(time) {
+        let response = await GetHotSearchListService.methods.getHotSearchListByTime(time);
+        console.log(response);
+        if(!response.success){
+          alert("出现错误");
+          return;
+        }
+        if(response.code == 1){
+          this.renderHotSearchList(response.data);
+        }
+      },
+      renderHotSearchList(data) {
+        this.items.splice(0);
+        for(const rank in data){
+          const item = data[""+rank];
+          this.addDataToList(item);
+        }
+      },
+      addDataToList(item){
+        this.items.push({color: '#ebebeb', show:false, title: item["desc"], blogDetails: item["blogDetails"]})
+      }
+    }
   }
 </script>

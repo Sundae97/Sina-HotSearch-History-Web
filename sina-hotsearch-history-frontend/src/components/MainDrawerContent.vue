@@ -18,10 +18,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    import config_data from "../../public/config/config"
-
-    const base_url = config_data.GET_SINA_HOTSEARCH_BASE_URL;
     export default {
         name: 'MainDrawerList',
         props: {
@@ -34,32 +30,33 @@
         created () {
             this.date_picker = this.getTodayStr();
             this.time_picker = this.getNowTimeStr();
-            axios({
-                method: 'GET',
-                url: base_url + '/sina/get_hotsearch_detail_list?time=1582362420000',
-            }).then((response) => {
-                console.log(response)
-            }).catch((error) => {
-                console.log(error)
-            })
         },
         methods: {
-            queryBtnClick:function () {
+            queryBtnClick() {
+                this.callParentCloseDrawer();
+                this.callParentUpdateMainContentList(this.getComponentsDateTime());
+            },
+            realTimeBtnClick() {
+                this.callParentCloseDrawer();
+                this.callParentUpdateMainContentList(this.getComponentsDateTime());
+            },
+            callParentUpdateMainContentList(time) {
+                this.$emit("updateMainContentHotSearchList", time);
+            },
+            callParentCloseDrawer(){
+                this.$emit("closeDrawer");
+            },
+            getComponentsDateTime() {
                 let date = this.$data.date_picker;
                 let time = this.$data.time_picker;
-                let str = date + " " + time;
-                console.log("realTimeBtnClick ---> " + new Date(str).getTime());
-                this.$emit("closeDrawer");
+                let dateTimeStr = date + " " + time;
+                return new Date(dateTimeStr).getTime();
             },
-            realTimeBtnClick: function () {
-                console.log("realTimeBtnClick ---> " + new Date().getTime());
-                this.$emit("closeDrawer");
-            },
-            getTodayStr: function () {
+            getTodayStr () {
                 let date = new Date();
                 return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
             },
-            getNowTimeStr: function () {
+            getNowTimeStr () {
                 let date = new Date();
                 return date.getHours() + ":" + date.getMinutes();
             }

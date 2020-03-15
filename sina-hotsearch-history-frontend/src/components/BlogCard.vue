@@ -14,18 +14,28 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-img
+        <v-img  height="200"
                 src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
-        ></v-img>
+        />
 
         <v-card-text>
             Visit ten places on our planet that are undergoing the biggest changes today.
         </v-card-text>
 
         <v-card-actions>
-            <v-icon class="margin-n">mdi-share-circle</v-icon>100
-            <v-icon class="margin-n">mdi-message</v-icon>100
-            <v-icon class="margin-n">mdi-thumb-up</v-icon>100
+            <v-icon class="margin-n" size="18">mdi-share-circle</v-icon><span class="text-no-wrap caption" style="margin: 0px 4px;">88.6k</span>
+            <v-divider
+                    class="mx-4"
+                    inset
+                    vertical
+            ></v-divider>
+            <v-icon class="margin-n" size="18">mdi-message</v-icon><span class="text-no-wrap caption" style="margin: 0px 4px;">8.6k</span>
+            <v-divider
+                    class="mx-4"
+                    inset
+                    vertical
+            ></v-divider>
+            <v-icon class="margin-n" size="18">mdi-thumb-up</v-icon><span class="text-no-wrap caption" style="margin: 0px 4px;">120</span>
             <v-spacer></v-spacer>
             <v-btn icon>
                 <v-icon>mdi-send</v-icon>
@@ -36,7 +46,10 @@
 
 <script>
     export default {
-        name: "BlogCard"
+        name: "BlogCard",
+        prop:{
+            value:null
+        }
     }
 </script>
 

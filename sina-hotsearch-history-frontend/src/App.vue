@@ -31,12 +31,12 @@
                 :width="320"
                 app
         >
-            <MainDrawerContent @closeDrawer="closeDrawer"/>
+            <MainDrawerContent @closeDrawer="closeDrawer" @updateMainContentHotSearchList="updateMainContentHotSearchList"/>
         </v-navigation-drawer>
 
         <v-content>
-            <MainContent id="scroll-target"/>
-          <el-backtop></el-backtop>
+            <MainContent ref="MainContent"></MainContent>
+          <el-backtop/>
         </v-content>
 
     </v-app>
@@ -44,22 +44,22 @@
 
 <script>
     import MainDrawerContent from "@/components/MainDrawerContent";
-    import MainContent_PC from "@/components/MainContent/MainContent_PC";
-    import MainContent_Mobile from "@/components/MainContent/MainContent_Mobile";
+    import MainContent from "@/components/MainContent/MainContent_PC";
+    // import MainContent_Mobile from "@/components/MainContent/MainContent_Mobile";
+    //
+    // let MainContent;
+    //
+    // function _isMobile(){
+    //     // let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+    //     // return flag;
+    //     return document.documentElement.clientWidth < 650;
+    // }
 
-    let MainContent;
-
-    function _isMobile(){
-        // let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-        // return flag;
-        return document.documentElement.clientWidth < 650;
-    }
-
-    if (_isMobile()) {
-        MainContent = MainContent_Mobile;
-    } else {
-        MainContent = MainContent_PC;
-    }
+    // if (_isMobile()) {
+    //     MainContent = MainContent_Mobile;
+    // } else {
+    //     MainContent = MainContent_PC;
+    // }
     export default {
         name: 'App',
 
@@ -74,6 +74,12 @@
             closeDrawer() {
                 this.drawer = false;
             },
+            updateMainContentHotSearchList(time) {
+                this.$refs.MainContent.updateHotSearchList(time);
+            },
+        },
+        mounted() {
+            this.updateMainContentHotSearchList("1582362420000");
         },
     };
 </script>
