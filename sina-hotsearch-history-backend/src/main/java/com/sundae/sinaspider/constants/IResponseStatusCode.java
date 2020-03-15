@@ -1,4 +1,7 @@
 package com.sundae.sinaspider.constants;
 
-public enum IResponseStatusCode {
+public interface IResponseStatusCode {
+    int SUCCESS = 1;
+    int NONE_HOTSEARCH=2;
+    int ERROR = -1;
 }
