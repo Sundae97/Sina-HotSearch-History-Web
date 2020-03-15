@@ -33,8 +33,8 @@
                   <div v-show="item.show">
                     <v-divider></v-divider>
                     <v-row style="padding: 5px;">
-                      <v-col class="blog-card" v-for="blogItem in items.blogDetails" :key="blogItem.blogId">
-                        <BlogCard v-bind:key="blogItem"/>
+                      <v-col class="blog-card" v-for="(blogItem, blogDetailIndex) in item.blogDetails" :key="blogDetailIndex">
+                        <BlogCard v-bind:blogContent="blogItem"/>
                       </v-col>
                     </v-row>
                   </div>
