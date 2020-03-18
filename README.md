@@ -32,6 +32,16 @@
 | -v /root/sina-hotsearch-web/spider/log:/sina-hotsearch-history-scrapy/sina_hotsearch_history_scrapy/log | 映射log存储位置 |
 | -v /root/sina-hotsearch-web/spider/config.txt:/sina-hotsearch-history-scrapy/sina_hotsearch_history_scrapy/config.txt | 映射配置文件(Mysql,Redis连接信息) |
 
+### step 4:启动后端应用
+
+//TODO
+
+### step 5:启动前端应用
+
+`docker run -d -p 80:80 -p 443:443 --name nginx-dev sina-hotsearch-web-frontend`
+
+//TODO 还需要增加配置 `-v /host/path/nginx.conf:/etc/nginx/nginx.conf:ro`
+
 ## TODO
 
 - [ ] 增加配置文件，用于docker启动时映射配置文件，需要修改程序（这一步还需要好好考虑怎么才比较方便部署）
