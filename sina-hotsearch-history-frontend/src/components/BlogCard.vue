@@ -13,9 +13,11 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-img  height="200"
-                :src="blogContent.picUrls[0] == null ? '' : blogContent.picUrls[0]"
-        />
+        <el-image style="min-width: 100%; min-height: 200px;" height="200" :src="blogContent.picUrls[0] == null ? '' : blogContent.picUrls[0]">
+            <div style="height: 100%; width: 100%;position: absolute;text-align: center;" slot="error" class="image-slot">
+                <i style="font-size: 1.3em;margin-top: 70px;" class="el-icon-picture-outline"></i>
+            </div>
+        </el-image>
 
         <v-card-text>
             {{blogContent.text}}
