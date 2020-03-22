@@ -1,5 +1,5 @@
 <template>
-  <v-container id="main_content" style="padding: 0px; height: 100%;" fluid>
+  <v-container id="main_content" style="padding: 0px; z-index: 2; height: 100%;" fluid>
     <v-row align="start" justify="center" no-gutters>
       <v-col style="margin-right: 8px;margin-bottom: 100px;">
         <v-timeline v-show="items != null && items.length > 0" align-top dense>
@@ -10,7 +10,7 @@
                   :icon="(i+1)+''"
                   fill-dot
                   left
-                  class="wow flipInY"
+                  class="wow flipInX"
                   style="padding-bottom: 18px;"
           >
               <v-card
@@ -90,24 +90,22 @@
         });
         wow.init()
       },
-      initList(){
-        for (let i = 0; i < 50; i++) {
-          this.items.push({color: '#ebebeb', show:false, title: ""});
+      initLatestHotSearchList(){
+        this.clearList();
+        GetHotSearchListService.methods.getLatestHotSearchTime(this.initLatestHotSearchList_callback);
+      },
+      initLatestHotSearchList_callback(response){
+        console.log(response);
+        if(response.code == 1){
+          this.updateHotSearchList(response.data);
         }
       },
-      async updateHotSearchList(time) {
+      updateHotSearchList(time) {
         this.clearList();
-        let response;
-        try{
-          response = await GetHotSearchListService.methods.getHotSearchListByTime(time);
-        }catch (e) {
-          this.clearList();
-          return;
-        }
-        if(response.code == 2){
-          this.clearList();
-          return;
-        }
+        GetHotSearchListService.methods.getHotSearchListByTime(time, this.updateHotSearchList_callback);
+
+      },
+      updateHotSearchList_callback(response){
         if(response.code == 1){
           this.renderHotSearchList(response.data);
         }

@@ -11,7 +11,7 @@
                 <v-btn v-on:click="queryBtnClick" rounded color="warning" dark> 查 询 </v-btn>
             </div>
             <div class="text-center">
-                <v-btn v-on:click="realTimeBtnClick" rounded color="success" dark> 实 时 </v-btn>
+                <v-btn v-on:click="realTimeBtnClick" rounded color="success" dark> 最 新 </v-btn>
             </div>
         </v-row>
     </div>
@@ -34,14 +34,11 @@
         methods: {
             queryBtnClick() {
                 this.callParentCloseDrawer();
-                this.callParentUpdateMainContentList(this.getComponentsDateTime());
+                this.$emit("updateMainContentHotSearchList", this.getComponentsDateTime());
             },
             realTimeBtnClick() {
                 this.callParentCloseDrawer();
-                this.callParentUpdateMainContentList(this.getComponentsDateTime());
-            },
-            callParentUpdateMainContentList(time) {
-                this.$emit("updateMainContentHotSearchList", time);
+                this.$emit("initLatestMainContentHotSearchList");
             },
             callParentCloseDrawer(){
                 this.$emit("closeDrawer");

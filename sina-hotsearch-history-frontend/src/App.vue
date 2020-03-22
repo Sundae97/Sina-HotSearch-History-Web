@@ -27,22 +27,25 @@
         </v-app-bar>
 
         <v-navigation-drawer
+                style="z-index: 9999;"
                 v-model="drawer"
                 :width="320"
                 app
         >
-            <MainDrawerContent @closeDrawer="closeDrawer" @updateMainContentHotSearchList="updateMainContentHotSearchList"/>
+            <MainDrawerContent
+                    @closeDrawer="closeDrawer"
+                    @updateMainContentHotSearchList="updateMainContentHotSearchList"
+                    @initLatestMainContentHotSearchList="initLatestMainContentHotSearchList"/>
         </v-navigation-drawer>
 
         <v-content>
             <MainContent ref="MainContent"></MainContent>
-          <el-backtop/>
+            <el-backtop/>
         </v-content>
-
     </v-app>
 </template>
 
-<style scoped>
+<style>
     html,body,#app{
         height: 100%;
     }
@@ -67,11 +70,14 @@
                 this.drawer = false;
             },
             updateMainContentHotSearchList(time) {
-                this.$refs.MainContent.updateHotSearchList(time);
+                setTimeout(() => this.$refs.MainContent.updateHotSearchList(time), 300);
             },
+            initLatestMainContentHotSearchList(){
+                setTimeout(() => this.$refs.MainContent.initLatestHotSearchList(), 300);
+            }
         },
         mounted() {
-            this.updateMainContentHotSearchList("1582362420000");
+            this.$refs.MainContent.initLatestHotSearchList();
         },
     };
 </script>

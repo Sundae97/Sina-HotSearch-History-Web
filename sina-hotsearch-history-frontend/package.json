@@ -1,5 +1,5 @@
 {
-  "name": "微博热搜历史",
+  "name": "sina-hotsearch-history-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
