@@ -3,7 +3,7 @@ package com.sundae.sinaspider.util;
 import com.sundae.sinaspider.domain.BlogDetail;
 import com.sundae.sinaspider.domain.HotSearchDetail;
 import com.sundae.sinaspider.domain.HotSearchDetailPOJO;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
