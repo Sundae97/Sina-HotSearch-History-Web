@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : tencent
- Source Server Type    : MySQL
- Source Server Version : 50729
- Source Host           : 212.64.34.214:3306
- Source Schema         : sina_hotsearch_db
-
- Target Server Type    : MySQL
- Target Server Version : 50729
- File Encoding         : 65001
-
- Date: 25/02/2020 15:08:14
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
