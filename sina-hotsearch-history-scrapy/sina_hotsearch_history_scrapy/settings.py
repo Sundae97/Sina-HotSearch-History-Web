@@ -28,7 +28,7 @@ ROBOTSTXT_OBEY = False
 today = datetime.datetime.now()
 log_file_path = "log/scrapy_{}_{}_{}.log".format(today.year, today.month, today.day)
 
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "ERROR"
 # TODO LOGGER FILE ENABLE
 LOG_FILE = log_file_path
 

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from pymysql import InternalError
 
 from sina_hotsearch_history_scrapy.items import HotSearchList, HotSearchListItem, HotSearchRank, HotSearchBlogItem
 import logging
 import pymysql
 import pymysql.cursors
-from DBUtils.PooledDB import PooledDB, SharedDBConnection
+from DBUtils.PooledDB import PooledDB
 import redis
 import config
 import json
