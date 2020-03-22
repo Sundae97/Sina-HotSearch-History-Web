@@ -31,6 +31,7 @@
             openLoading(){
                 this.loading = Loading.service({
                     lock: true,
+                    target: '#main_content',
                     fullscreen: false,
                     text: '正在加载中啦。。。 (づ￣ 3￣)づ',
                     spinner: 'el-icon-loading',

@@ -10,6 +10,8 @@ import java.util.List;
 public interface SinaHotSearchHistoryDao {
     HotSearch getHotSearchByTime(String time);
 
+    HotSearch getLatestHotSearch();
+
     List<HotSearchDetailPOJO> getHotSearchDetailAndBlogByHotSearchId(long hotSearchId);
 
 }

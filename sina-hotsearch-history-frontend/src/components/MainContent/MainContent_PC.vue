@@ -1,5 +1,5 @@
 <template>
-  <v-container style="padding: 0px;">
+  <v-container id="main_content" style="padding: 0px; height: 100%;" fluid>
     <v-row align="start" justify="center" no-gutters>
       <v-col style="margin-right: 8px;margin-bottom: 100px;">
         <v-timeline v-show="items != null && items.length > 0" align-top dense>
@@ -21,9 +21,7 @@
                   <span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;width: 86%;">{{item.title}}</span>
                   <v-spacer></v-spacer>
 
-                  <v-btn
-                          icon
-                  >
+                  <v-btn icon>
                     <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                   </v-btn>
                 </v-card-title>
@@ -51,11 +49,6 @@
 </template>
 
 <style scoped>
-  .v-timeline{
-    left: -8px;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform-style: preserve-3d;
-  }
   h4{
     font-size: 1.3em;
     color: #7f7f7f;
@@ -76,8 +69,15 @@
       items: [],
     }),
     mounted(){
-      this.initList();
-      this.initWOW();
+      // this.initList();
+      // this.initWOW();
+    },
+    watch: {
+      items(){
+        this.$nextTick(() => {
+          this.initWOW();
+        })
+      }
     },
     methods: {
       initWOW() {
@@ -86,7 +86,7 @@
           animateClass: 'animated',
           offset: 0,
           mobile: true,
-          live: true
+          live: false
         });
         wow.init()
       },
@@ -96,6 +96,7 @@
         }
       },
       async updateHotSearchList(time) {
+        this.clearList();
         let response;
         try{
           response = await GetHotSearchListService.methods.getHotSearchListByTime(time);
@@ -117,7 +118,6 @@
           const item = data[""+rank];
           this.addDataToList(item);
         }
-        this.initWOW();
       },
       addDataToList(item){
         this.items.push({color: '#ebebeb', show:false, title: item["desc"], blogDetails: item["blogDetails"]})

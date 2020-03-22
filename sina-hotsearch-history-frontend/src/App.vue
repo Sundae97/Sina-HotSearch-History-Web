@@ -1,5 +1,5 @@
 <template>
-    <v-app id="main">
+    <v-app id="app">
         <v-app-bar
                 :height="58"
                 color="amber darken-2"
@@ -42,24 +42,16 @@
     </v-app>
 </template>
 
+<style scoped>
+    html,body,#app{
+        height: 100%;
+    }
+</style>
+
 <script>
     import MainDrawerContent from "@/components/MainDrawerContent";
     import MainContent from "@/components/MainContent/MainContent_PC";
-    // import MainContent_Mobile from "@/components/MainContent/MainContent_Mobile";
-    //
-    // let MainContent;
-    //
-    // function _isMobile(){
-    //     // let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-    //     // return flag;
-    //     return document.documentElement.clientWidth < 650;
-    // }
 
-    // if (_isMobile()) {
-    //     MainContent = MainContent_Mobile;
-    // } else {
-    //     MainContent = MainContent_PC;
-    // }
     export default {
         name: 'App',
 
