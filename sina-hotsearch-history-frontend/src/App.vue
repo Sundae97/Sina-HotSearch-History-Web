@@ -60,7 +60,7 @@
 
         components: {
             MainDrawerContent,
-            MainContent,
+            MainContent
         },
         data: () => ({
             drawer: null,

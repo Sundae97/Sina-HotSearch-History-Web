@@ -45,6 +45,13 @@
     <v-row style="margin-top: 180px;" v-if="items==null || items.length == 0"  justify="center">
       <h4>空空如也   ┭┮﹏┭┮</h4><br>
     </v-row>
+    <v-footer style="align-content: center;justify-content: center;background-color: white; " absolute inset>
+      <el-divider></el-divider>
+      <div>
+        <p class="text-center font-weight-light" style="padding-bottom: 2px;margin-bottom:0px;">Copyright © 2020 <el-link type="primary" class="" href="https://www.asundae.com">Sundae's blog</el-link> - 今宵明月，绝不西沉。</p>
+        <p class="text-center font-weight-light" style="padding-bottom: 2px;margin-bottom:0px;"><el-link type="primary" href="http://beian.miit.gov.cn/">苏 ICP 备 17019894 号 - 2 </el-link></p>
+      </div>
+    </v-footer>
   </v-container>
 </template>
 
@@ -60,10 +67,13 @@
   import GetHotSearchListService from "@/service/GetHotSearchListService";
   import {WOW} from 'wowjs'
   import BlogCard from "@/components/BlogCard";
-
+  import { Link, Divider } from 'element-ui'
   export default {
     name: 'MainContent',
-    components: {BlogCard},
+    components: {
+      BlogCard,
+      'el-link': Link,
+      'el-divider': Divider},
     data: () => ({
       time_line_num_color: "#edaa29",
       items: [],
