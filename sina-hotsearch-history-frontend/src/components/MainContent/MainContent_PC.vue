@@ -48,8 +48,8 @@
     <v-footer style="align-content: center;justify-content: center;background-color: white; " absolute inset>
       <el-divider></el-divider>
       <div>
-        <p class="text-center font-weight-light" style="padding-bottom: 2px;margin-bottom:0px;">Copyright © 2020 <el-link type="primary" class="" href="https://www.asundae.com">Sundae's blog</el-link> - 今宵明月，绝不西沉。</p>
-        <p class="text-center font-weight-light" style="padding-bottom: 2px;margin-bottom:0px;"><el-link type="primary" href="http://beian.miit.gov.cn/">苏 ICP 备 17019894 号 - 2 </el-link></p>
+        <p class="text-center font-weight-light" style="padding-bottom: 2px;margin-bottom:0px;font-size: small">Copyright © 2020 <el-link type="primary" class="" href="https://www.asundae.com">Sundae's blog</el-link> - 今宵明月，绝不西沉。</p>
+        <p class="text-center font-weight-light" style="padding-bottom: 2px;margin-bottom:0px;font-size: small"><el-link type="primary" href="http://beian.miit.gov.cn/">苏 ICP 备 17019894 号 - 2 </el-link></p>
       </div>
     </v-footer>
   </v-container>
@@ -64,10 +64,11 @@
 </style>
 
 <script>
-  import GetHotSearchListService from "@/service/GetHotSearchListService";
+  import ApiService from "@/service/ApiService";
   import {WOW} from 'wowjs'
   import BlogCard from "@/components/BlogCard";
   import { Link, Divider } from 'element-ui'
+
   export default {
     name: 'MainContent',
     components: {
@@ -102,7 +103,7 @@
       },
       initLatestHotSearchList(){
         this.clearList();
-        GetHotSearchListService.methods.getLatestHotSearchTime(this.initLatestHotSearchList_callback);
+        ApiService.methods.getLatestHotSearchTime(this.initLatestHotSearchList_callback);
       },
       initLatestHotSearchList_callback(response){
         console.log(response);
@@ -112,8 +113,7 @@
       },
       updateHotSearchList(time) {
         this.clearList();
-        GetHotSearchListService.methods.getHotSearchListByTime(time, this.updateHotSearchList_callback);
-
+        ApiService.methods.getHotSearchListByTime(time, this.updateHotSearchList_callback);
       },
       updateHotSearchList_callback(response){
         if(response.code == 1){

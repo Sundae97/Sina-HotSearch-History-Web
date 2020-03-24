@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-row justify="center">
-            <v-date-picker style="margin: 10px 18px;" v-model="date_picker" locale="zh-cn"  color="amber darken-1"/>
+            <v-date-picker ref="DatePicker" style="margin: 10px 18px;" v-model="date_picker" locale="zh-cn"  color="amber darken-1" :min="minDate" :max="maxDate"/>
         </v-row>
         <v-row justify="center">
             <v-time-picker v-model="time_picker" format="24hr" :ampm-in-title="true" locale="zh-cn" color="amber darken-1"></v-time-picker>
@@ -18,20 +18,33 @@
 </template>
 
 <script>
+    import ApiService from "@/service/ApiService";
+    import dateFormat from 'dateformat'
+
     export default {
         name: 'MainDrawerList',
         props: {
 
         },
         data: () => ({
+            minDate: "2020-01-01",
+            maxDate: "",
             date_picker: null,
-            time_picker: null ,
+            time_picker: null,
         }),
         created () {
             this.date_picker = this.getTodayStr();
             this.time_picker = this.getNowTimeStr();
         },
+        mounted() {
+            this.maxDate = dateFormat(new Date(), "yyyy-mm-dd");
+            ApiService.methods.getEarliestHotSearchTime(this.initMinDate);
+        },
         methods: {
+            initMinDate(data){
+                let date = new Date(data.data);
+                this.minDate = dateFormat(date, "yyyy-mm-dd");
+            },
             queryBtnClick() {
                 this.callParentCloseDrawer();
                 this.$emit("updateMainContentHotSearchList", this.getComponentsDateTime());

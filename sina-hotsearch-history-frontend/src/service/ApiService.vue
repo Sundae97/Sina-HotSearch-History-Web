@@ -3,7 +3,7 @@
     import config_data from "../../public/config/config"
     import { Loading, Message } from 'element-ui'
 
-    const base_url = config_data.GET_SINA_HOTSEARCH_BASE_URL;
+    const base_url = config_data.DEBUG ? config_data.GET_SINA_HOTSEARCH_BASE_URL_DEBUG : config_data.GET_SINA_HOTSEARCH_BASE_URL;
 
     export default {
         data: () => ({
@@ -23,6 +23,19 @@
                     callback(response.data);
                 }).catch(() => {
                     this.closeLoading();
+                    this.showErrorMessage("网络好像出现错误了嗷~~ (　o=^•ェ•)o　┏━┓");
+                })
+            },
+            getEarliestHotSearchTime(callback){
+                axios({
+                    method: 'GET',
+                    url: base_url + '/sina/get_min_date',
+                    timeout: 10000,
+                }).then((response) => {
+                    if(response.data.code != 1)
+                        this.showErrorMessage("网络好像出现错误了嗷~~ (　o=^•ェ•)o　┏━┓");
+                    callback(response.data);
+                }).catch(() => {
                     this.showErrorMessage("网络好像出现错误了嗷~~ (　o=^•ェ•)o　┏━┓");
                 })
             },
