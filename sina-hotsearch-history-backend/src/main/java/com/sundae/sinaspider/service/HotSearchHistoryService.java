@@ -10,4 +10,5 @@ public interface HotSearchHistoryService {
 
     Map<Integer, HotSearchDetail> getHotSearchDetailListByTime(long time);
 
+    Date getMinDate();
 }

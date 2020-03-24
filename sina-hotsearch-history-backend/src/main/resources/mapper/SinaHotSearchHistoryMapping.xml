@@ -46,6 +46,17 @@
             0,1
     </select>
 
+    <select id="getEarliestHotSearch" resultType="com.sundae.sinaspider.domain.HotSearch">
+        SELECT
+            id,time
+        FROM
+            hotsearch_list
+        ORDER BY
+            time
+        LIMIT
+            0,1
+    </select>
+
     <select id="getHotSearchDetailAndBlogByHotSearchId" parameterType="java.lang.Long" resultMap="HotSearchDetailMap">
         SELECT
             b.id AS `hotsearch_detail_id`,

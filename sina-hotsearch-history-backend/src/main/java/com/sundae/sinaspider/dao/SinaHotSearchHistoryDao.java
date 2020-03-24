@@ -12,6 +12,8 @@ public interface SinaHotSearchHistoryDao {
 
     HotSearch getLatestHotSearch();
 
+    HotSearch getEarliestHotSearch();
+
     List<HotSearchDetailPOJO> getHotSearchDetailAndBlogByHotSearchId(long hotSearchId);
 
 }

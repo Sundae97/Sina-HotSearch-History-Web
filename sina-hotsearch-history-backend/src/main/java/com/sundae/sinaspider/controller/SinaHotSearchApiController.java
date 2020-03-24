@@ -47,6 +47,16 @@ public class SinaHotSearchApiController {
     @RequestMapping(value = "/get_latest_hotsearch_time", method = RequestMethod.GET)
     public GeneralResponse<Long> getLatestHotSearchTime(){
         Date date = sinaHotSearchHistoryService.getLatestHotSearchTime();
+        return getDateGeneralResponse(date);
+    }
+
+    @RequestMapping(value = "/get_min_date", method = RequestMethod.GET)
+    public GeneralResponse<Long> getMinDate(){
+        Date date = sinaHotSearchHistoryService.getMinDate();
+        return getDateGeneralResponse(date);
+    }
+
+    private GeneralResponse<Long> getDateGeneralResponse(Date date) {
         GeneralResponse<Long> generalResponse = new GeneralResponse<>();
         if(date == null){
             generalResponse.setSuccess(false);

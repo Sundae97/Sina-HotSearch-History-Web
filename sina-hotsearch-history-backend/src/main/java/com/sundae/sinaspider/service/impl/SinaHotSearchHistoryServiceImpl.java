@@ -59,4 +59,10 @@ public class SinaHotSearchHistoryServiceImpl implements HotSearchHistoryService 
         HotSearch hotSearch = hotSearchHistoryDao.getLatestHotSearch();
         return hotSearch == null ? null : hotSearch.getTime();
     }
+
+    @Override
+    public Date getMinDate() {
+        HotSearch hotSearch = hotSearchHistoryDao.getEarliestHotSearch();
+        return hotSearch == null ? null : hotSearch.getTime();
+    }
 }
