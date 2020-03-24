@@ -11,9 +11,17 @@
 
  
 
+## Dockerfile构建
+//TODO
+`docker build --rm -f "Dockerfile" -t sinahotsearchwebbackenddockerfile:1.0 "."`
+
+`docker build --rm -f "Dockerfile" -t sina-hotsearch-history-scrapy:1.0 "."`
+
+
+
 ## 启动步骤
 ### step 1:启动redis
-`docker run -itd --name --restart=always redis-test -p 6379:6379 redis --requirepass "123456"`
+`docker run -itd --name redis-test --restart=always -p 6379:6379 redis --requirepass "123456"`
 
 ### step 2:启动mysql
 `docker run -d -p 3306:3306 --restart=always --privileged=true -v /root/mysql/conf/mysql5.6.conf:/etc/mysql/my.cnf -v /root/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-test mysql:5.7`
@@ -35,12 +43,6 @@
 ### step 4:启动后端应用
 
 //TODO
-
-### step 5:启动前端应用
-
-`docker run -d -p 80:80 -p 443:443 --name nginx-dev sina-hotsearch-web-frontend`
-
-//TODO 还需要增加配置 `-v /host/path/nginx.conf:/etc/nginx/nginx.conf:ro`
 
 ## TODO
 

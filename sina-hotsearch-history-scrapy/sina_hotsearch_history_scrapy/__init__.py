@@ -17,6 +17,7 @@ def job():
 
 
 if __name__ == '__main__':
+    # cmdline.execute('scrapy crawl SinaHotSearchPySpider'.split())
     schedule.every(config.interval).minutes.do(job)
     while True:
         schedule.run_pending()
