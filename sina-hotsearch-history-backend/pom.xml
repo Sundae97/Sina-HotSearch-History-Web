@@ -73,6 +73,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
                     <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>ico</nonFilteredFileExtension>
                         <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
                         <nonFilteredFileExtension>woff</nonFilteredFileExtension>
                         <nonFilteredFileExtension>eot</nonFilteredFileExtension>

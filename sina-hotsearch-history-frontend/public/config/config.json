@@ -1,5 +1,0 @@
-{
-  "DEBUG": true,
-  "GET_SINA_HOTSEARCH_BASE_URL": "",
-  "GET_SINA_HOTSEARCH_BASE_URL_DEBUG": "http://localhost:8081"
-}

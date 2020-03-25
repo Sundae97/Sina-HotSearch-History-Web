@@ -1,13 +1,13 @@
 <script>
     import axios from 'axios'
-    import config_data from "../../public/config/config"
     import { Loading, Message } from 'element-ui'
 
-    const base_url = config_data.DEBUG ? config_data.GET_SINA_HOTSEARCH_BASE_URL_DEBUG : config_data.GET_SINA_HOTSEARCH_BASE_URL;
+    const base_url = "";
 
     export default {
         data: () => ({
-            loading:null
+            loading:null,
+            base_url: ''
         }),
         methods: {
             getLatestHotSearchTime(callback){
