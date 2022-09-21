@@ -15,7 +15,7 @@
     "dateformat": "^3.0.3",
     "element-ui": "^2.4.5",
     "vue": "^2.6.11",
-    "vuetify": "^2.1.0",
+    "vuetify": "^2.6.10",
     "wowjs": "latest"
   },
   "devDependencies": {
